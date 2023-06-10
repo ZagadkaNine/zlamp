@@ -1,0 +1,7 @@
+---
+- name: Install Mysql Server
+  ansible.builtin.apt:
+    name: mysql-server
+    state: present
+  notify: reload mysql 
+

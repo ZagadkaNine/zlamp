@@ -1,0 +1,55 @@
+---
+- name: Create personal apache directory
+  file:
+    path: "/home/{{ current_user }}/.config/apache"
+    state: directory
+
+- name: Add user configs
+  ansible.builtin.template:
+    src: templates/user-includes.conf.j2
+    dest: "/etc/apache2/conf-enabled/user-vhosts.conf"
+  notify: reload apache2 
+
+- name: Add personal virtualhost 
+  ansible.builtin.template:
+    src: templates/virtualhost.conf.j2
+    dest: "/home/{{ current_user }}/.config/apache/virtualhost.conf"
+  notify: reload apache2 
+
+- name: Install Apache Server
+  ansible.builtin.apt:
+    name: apache2
+    state: present
+  notify: reload apache2 
+
+- name: Install Apache  MPM ITK
+  ansible.builtin.apt:
+    name: libapache2-mpm-itk
+    state: present
+  notify: reload apache2 
+    
+- name: Install PHP for Apache
+  ansible.builtin.apt:
+    name: libapache2-mod-php
+    state: present
+  notify: reload apache2 
+
+- name: Install PHP Mysql 
+  ansible.builtin.apt:
+    name: php-mysql 
+    state: present
+  notify: reload apache2 
+
+- name: Enable Apache  MPM ITK
+  community.general.apache2_module: 
+    name: mpm_itk
+    state: present
+  notify: reload apache2 
+
+- name: Enabled mod_rewrite
+  community.general.apache2_module: 
+    name: rewrite 
+    state: present
+  notify: reload apache2 
+  
+

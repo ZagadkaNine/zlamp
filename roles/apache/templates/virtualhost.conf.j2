@@ -1,0 +1,21 @@
+<VirtualHost *:80>
+ServerAlias *.{{ current_user }}.com
+
+UseCanonicalName Off
+
+<IfModule mpm_itk_module>
+AssignUserId {{ current_user }} {{ current_user }}
+VirtualDocumentRoot /home/{{ current_user }}/Devel/%0/public
+</IfModule>
+
+
+
+<Directory /home/{{ current_user }}/Devel/>
+  AllowOverride All
+  Require all granted
+  RewriteEngine on
+</Directory>
+
+ErrorLog /var/log/apache2/error.{{ current_user }}.log
+CustomLog /var/log/apache2/access.{{ current_user }}.log combined
+</VirtualHost>
