@@ -40,6 +40,18 @@
     state: present
   notify: reload apache2 
 
+- name: Install PHP DOM 
+  ansible.builtin.apt:
+    name: php-xml
+    state: present
+  notify: reload apache2 
+
+- name: Install PHP INTL 
+  ansible.builtin.apt:
+    name: php-intl
+    state: present
+  notify: reload apache2 
+
 - name: Enable Apache  MPM ITK
   community.general.apache2_module: 
     name: mpm_itk

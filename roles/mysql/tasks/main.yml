@@ -1,7 +1,8 @@
 ---
 - name: Install Mysql Server
   ansible.builtin.apt:
-    name: mysql-server
+    name: mariadb-server
     state: present
-  notify: reload mysql 
+  notify: reload mariadb
+
 
