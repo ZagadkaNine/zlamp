@@ -4,6 +4,12 @@
     path: "/home/{{ current_user }}/.config/apache"
     state: directory
 
+- name: Install Apache Server
+  ansible.builtin.apt:
+    name: apache2
+    state: present
+  notify: reload apache2 
+
 - name: Add user configs
   ansible.builtin.template:
     src: templates/user-includes.conf.j2
@@ -14,12 +20,6 @@
   ansible.builtin.template:
     src: templates/virtualhost.conf.j2
     dest: "/home/{{ current_user }}/.config/apache/virtualhost.conf"
-  notify: reload apache2 
-
-- name: Install Apache Server
-  ansible.builtin.apt:
-    name: apache2
-    state: present
   notify: reload apache2 
 
 - name: Install Apache  MPM ITK
@@ -58,6 +58,12 @@
     state: present
   notify: reload apache2 
 
+- name: Enabled mod_vhost_alias
+  community.general.apache2_module: 
+    name: vhost_alias
+    state: present
+  notify: reload apache2 
+  
 - name: Enabled mod_rewrite
   community.general.apache2_module: 
     name: rewrite 
