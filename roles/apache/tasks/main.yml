@@ -39,7 +39,13 @@
     name: php-mysql 
     state: present
   notify: reload apache2 
-
+    
+- name: Install PHP Mbstring
+  ansible.builtin.apt:
+    name: php-mbstring
+    state: present
+  notify: reload apache2 
+    
 - name: Install PHP DOM 
   ansible.builtin.apt:
     name: php-xml
@@ -48,7 +54,7 @@
 
 - name: Install PHP CURL 
   ansible.builtin.apt:
-    name: php-curl
+
     state: present
   notify: reload apache2 
 
