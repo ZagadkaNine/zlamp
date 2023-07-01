@@ -54,7 +54,7 @@
 
 - name: Install PHP CURL 
   ansible.builtin.apt:
-
+    name: php-curl
     state: present
   notify: reload apache2 
 
